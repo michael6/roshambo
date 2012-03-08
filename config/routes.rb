@@ -1,4 +1,14 @@
 Roshambo::Application.routes.draw do
+
+
+  get "pages/home"
+  get "pages/rock"
+  get "pages/scissors"
+  get "pages/paper"
+  get "pages/lizard"
+  get "pages/spock"
+  get "pages/stat"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
