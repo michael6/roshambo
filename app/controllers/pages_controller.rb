@@ -1,8 +1,9 @@
 class PagesController < ApplicationController
-  before_filter :common_content, :only => [:rock, :paper, :scissors, :lizard, :spock]
+  before_filter :common_content#, :only => [:rock, :paper, :scissors, :lizard, :spock]
 
   def common_content
-	@defeat={rock: :scissors, rock: :lizard, paper: :rock, paper: :spock, scissors: :paper, scissors: :lizard, lizard: :paper, lizard: :spock, spock: :rock, spock: :scissors}
+	@defeat={rock: :scissors, paper: :rock, scissors: :paper, lizard: :paper, spock: :rock}
+	@defeat2 = {rock: :lizard, paper: :spock, scissors: :lizard, lizard: :spock, spock: :scissors}
 	@throws=@defeat.keys
   end
     
@@ -10,22 +11,23 @@ class PagesController < ApplicationController
     session[:t]=0
 	session[:l]=0
 	session[:w]=0
-  end	
+  end
+  
   def rock
     @computer_throw=@throws.sample
 	@player_throw="rock".to_sym
     if @computer_throw == @player_throw 
-	@title="You tied with the computer. Try again!" 
-	session[:t] ||= 0
-	session[:t] +=1
-	elsif @computer_throw == @defeat[@player_throw] 
-    @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
-	session[:w] ||= 0
-	session[:w] +=1
+	  @title="You tied with the computer. Try again!" 
+	  session[:t] ||= 0
+	  session[:t] +=1
+	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat2[@player_throw] )
+      @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
+	  session[:w] ||= 0
+	  session[:w] +=1
     else   
-    @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
-    session[:l] ||= 0
-	session[:l] +=1
+      @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
+      session[:l] ||= 0
+	  session[:l] +=1
     end
   end
     def paper
@@ -35,7 +37,7 @@ class PagesController < ApplicationController
 	@title="You tied with the computer. Try again!" 
     session[:t] ||= 0	
 	session[:t] +=1
-	elsif @computer_throw == @defeat[@player_throw] 
+	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat[@player_throw]) 
     @title="Nicely done; #{@player_throw} beats #{@computer_throw}!"  
 	session[:w] ||= 0
 	session[:w] +=1
@@ -49,17 +51,17 @@ class PagesController < ApplicationController
     @computer_throw=@throws.sample
 	@player_throw="scissors".to_sym
     if @computer_throw == @player_throw
-	@title="You tied with the computer. Try again!" 
-	session[:t] ||= 0
-	session[:t] +=1
-	elsif @computer_throw == @defeat[@player_throw] 
-    @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
-	session[:w] ||= 0
-	session[:w] +=1
+	  @title="You tied with the computer. Try again!" 
+	  session[:t] ||= 0
+	  session[:t] +=1
+	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat[@player_throw] )
+      @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
+	  session[:w] ||= 0
+	  session[:w] +=1
     else 
-    @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
-    session[:l] ||= 0
-	session[:l] +=1
+      @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
+      session[:l] ||= 0
+	  session[:l] +=1
     end
   end
 def lizard
@@ -69,7 +71,7 @@ def lizard
 	@title="You tied with the computer. Try again!"  
 	session[:t] ||= 0
 	session[:t] +=1
-	elsif @computer_throw == @defeat[@player_throw] 
+	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat[@player_throw] )
     @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
 	session[:w] ||= 0
 	session[:w] +=1
@@ -86,7 +88,7 @@ def spock
 	@title="You tied with the computer. Try again!" 
 	session[:t] ||= 0
 	session[:t] +=1
-	elsif @computer_throw == @defeat[@player_throw] 
+	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat[@player_throw] )
     @title="Nicely done; #{@player_throw} beats #{@computer_throw}!" 
 	session[:w] ||= 0
 	session[:w] +=1
