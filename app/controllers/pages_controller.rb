@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :common_content#, :only => [:rock, :paper, :scissors, :lizard, :spock]
+  before_filter :common_content
 
   def common_content
 	@defeat={rock: :scissors, paper: :rock, scissors: :paper, lizard: :paper, spock: :rock}
@@ -34,17 +34,17 @@ class PagesController < ApplicationController
     @computer_throw=@throws.sample
 	@player_throw="paper".to_sym
     if @computer_throw == @player_throw
-	@title="You tied with the computer. Try again!" 
-    session[:t] ||= 0	
-	session[:t] +=1
+	  @title="You tied with the computer. Try again!" 
+      session[:t] ||= 0	
+	  session[:t] +=1
 	elsif (@computer_throw == @defeat[@player_throw] or @computer_throw == @defeat[@player_throw]) 
-    @title="Nicely done; #{@player_throw} beats #{@computer_throw}!"  
-	session[:w] ||= 0
-	session[:w] +=1
+      @title="Nicely done; #{@player_throw} beats #{@computer_throw}!"  
+	  session[:w] ||= 0
+	  session[:w] +=1
     else 
-    @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
-    session[:l] ||= 0
-	session[:l] +=1
+      @title="Ouch; #{@computer_throw} beats #{@player_throw}. Better luck next time!" 
+      session[:l] ||= 0
+	  session[:l] +=1
     end
   end
   def scissors
